@@ -7,6 +7,24 @@ pipeline{
                 git credentialsId: 'github', url: 'https://github.com/kishanth94/javawebapplication'
             }
         }
+        stage('Quality Gate Status Check'){
+            steps{
+                script{
+			            withSonarQubeEnv('sonarserver') { 
+                        // Get Home Path of Maven 
+                        def mvnHome = tool name: 'maven-3', type: 'maven'
+			            sh "${mvnHome}/bin/mvn clean sonar:sonar"
+                       	  }
+			            timeout(time: 1, unit: 'HOURS') {
+			            def qg = waitForQualityGate()
+				                if (qg.status != 'OK') {
+					                 error "Pipeline aborted due to quality gate failure: ${qg.status}"
+				                }
+                          }
+                }
+            }  
+        }
+        
         stage("Maven Build"){
             steps{
                 script{
@@ -17,15 +35,16 @@ pipeline{
                 }
             }
         }
+        
         stage("deploy"){
             steps{
                 sshagent(['aws-ec2-keypair']) {
                 sh """
-                    scp -o StrictHostKeyChecking=no target/myweb.war  ec2-user@172.31.30.253:/opt/tomcat8/webapps/
+                    scp -o StrictHostKeyChecking=no target/myweb.war  ec2-user@172.31.81.3:/opt/tomcat8/webapps/
                     
-                    ssh ec2-user@172.31.30.253 /opt/tomcat8/bin/shutdown.sh
+                    ssh ec2-user@172.31.81.3 /opt/tomcat8/bin/shutdown.sh
                     
-                    ssh ec2-user@172.31.30.253 /opt/tomcat8/bin/startup.sh
+                    ssh ec2-user@172.31.81.3 /opt/tomcat8/bin/startup.sh
                 
                 """
                 }
