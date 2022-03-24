@@ -7,6 +7,7 @@ pipeline{
                 git credentialsId: 'github', url: 'https://github.com/kishanth94/javawebapplication'
             }
         }
+	/*    
         stage('Quality Gate Status Check'){
             steps{
                 script{
@@ -24,6 +25,7 @@ pipeline{
                 }
             }  
         }
+	*/
         
         stage("Maven Build"){
             steps{
@@ -40,11 +42,11 @@ pipeline{
             steps{
                 sshagent(['aws-ec2-keypair']) {
                 sh """
-                    scp -o StrictHostKeyChecking=no target/myweb.war  ec2-user@172.31.81.3:/opt/tomcat8/webapps/
+                    scp -o StrictHostKeyChecking=no target/myweb.war  ec2-user@172.31.80.47:/opt/tomcat8/webapps/
                     
-                    ssh ec2-user@172.31.81.3 /opt/tomcat8/bin/shutdown.sh
+                    ssh ec2-user@172.31.80.47 /opt/tomcat8/bin/shutdown.sh
                     
-                    ssh ec2-user@172.31.81.3 /opt/tomcat8/bin/startup.sh
+                    ssh ec2-user@172.31.80.47 /opt/tomcat8/bin/startup.sh
                 
                 """
                 }
