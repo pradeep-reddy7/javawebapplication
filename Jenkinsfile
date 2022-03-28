@@ -86,12 +86,12 @@ pipeline{
 		deleteDir() /* Clean Up our Workspace */
 	    }
 	    success {
-		mail to: 'kishanthisavailable@gmail.com',
+		mail to: 'devopsawsfreetier@gmail.com',
 		     subject: "Success Build Pipeline: ${currentBuild.fullDisplayName}",
 		     body: "The pipeline ${env.BUILD_URL} completed successfully"
 	    }
 	    failure {
-		mail to: 'kishanthisavailable@gmail.com',
+		mail to: 'devopsawsfreetier@gmail.com',
 		     subject: "Failed Build Pipeline: ${currentBuild.fullDisplayName}",
 		     body: "Something is wrong with ${env.BUILD_URL}"
 	    }
