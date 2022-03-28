@@ -68,7 +68,7 @@ pipeline{
 		    
 		    mv target/*.war target/javawebapplication.war
 		    
-                    scp -o StrictHostKeyChecking=no target/javawebapplication.war  ec2-user@172.31.94.250:/opt/tomcat8/webapps/
+                    scp -o StrictHostKeyChecking=no target/application.war  ec2-user@172.31.94.250:/opt/tomcat8/webapps/
                     
                     ssh ec2-user@172.31.94.250 /opt/tomcat8/bin/shutdown.sh
                     
