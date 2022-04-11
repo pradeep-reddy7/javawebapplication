@@ -66,7 +66,7 @@ pipeline{
         
         stage("Deploy to Tomcat Server"){
             steps{
-                sshagent(['aws-ec2-keypair']) {
+                sshagent(['tomcat-keypair']) {
                 sh """
 		    echo $WORKSPACE
 		    
