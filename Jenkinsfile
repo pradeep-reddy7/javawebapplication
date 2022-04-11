@@ -7,7 +7,8 @@ pipeline{
                 git credentialsId: 'github', url: 'https://github.com/kishanth94/javawebapplication'
             }
         }
-	      
+	 
+	/*   
         stage('Quality Gate Status Check'){
             steps{
                 script{
@@ -25,6 +26,7 @@ pipeline{
                 }
             }  
         }
+	*/
   
         stage("Maven Build"){
             steps{
@@ -35,7 +37,8 @@ pipeline{
                 }
             }
         }
-	    
+	
+	/*    
 	stage("Upload War To Nexus"){
 	    steps{
 		script{
@@ -58,7 +61,8 @@ pipeline{
 		    version: "${mavenPom.version}"
 		    }
 	    }
-	}	
+	}
+	*/
         
         stage("Deploy to Tomcat Server"){
             steps{
@@ -68,11 +72,11 @@ pipeline{
 		    
 		    mv target/*.war target/javawebapplication.war
 		    
-                    scp -o StrictHostKeyChecking=no target/javawebapplication.war  ec2-user@172.31.94.250:/opt/tomcat8/webapps/
+                    scp -o StrictHostKeyChecking=no target/javawebapplication.war  ec2-user@172.31.17.23:/opt/tomcat8/webapps/
                     
-                    ssh ec2-user@172.31.94.250 /opt/tomcat8/bin/shutdown.sh
+                    ssh ec2-user@172.31.17.23 /opt/tomcat8/bin/shutdown.sh
                     
-                    ssh ec2-user@172.31.94.250 /opt/tomcat8/bin/startup.sh
+                    ssh ec2-user@172.31.17.23 /opt/tomcat8/bin/startup.sh
                 
                 """
                 }
@@ -80,6 +84,8 @@ pipeline{
             }
         }
     }
+}
+    /*	
     post {
 	    always {
 		echo 'Deleting the Workspace'
@@ -95,5 +101,5 @@ pipeline{
 		     subject: "Failed Build Pipeline: ${currentBuild.fullDisplayName}",
 		     body: "Something is wrong with ${env.BUILD_URL}"
 	    }
-    }	    
-}
+    }	
+    */
