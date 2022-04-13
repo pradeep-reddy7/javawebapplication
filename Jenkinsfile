@@ -33,45 +33,21 @@ pipeline{
                 // Get Home Path of Maven 
                 def mvnHome = tool name: 'maven-3', type: 'maven'
                 sh "${mvnHome}/bin/mvn clean package"
-		sh "mv target/*.war target/javawebapplication.war"	
                 }
             }
         }
 	
-	/*    
-	stage("Upload War To Nexus"){
-	    steps{
-		script{
-		    def mavenPom = readMavenPom file: 'pom.xml'
-		    def nexusRepoName = mavenPom.version.endsWith("SNAPSHOT") ? "javawebapplication-snapshot" : "javawebapplication-release"	
-		    nexusArtifactUploader artifacts: [
-			[
-			    artifactId: 'javawebapplication', 
-			    classifier: '', 
-			    file: "target/javawebapplication-${mavenPom.version}.war", 
-			    type: 'war'
-			]
-		    ], 
-	            credentialsId: 'nexus3', 
-	            groupId: 'in.javahome', 
-	            nexusUrl: '172.31.92.148:8081', 
-	            nexusVersion: 'nexus3', 
-	            protocol: 'http', 
-		    repository: nexusRepoName, 
-		    version: "${mavenPom.version}"
-		    }
-	    }
-	}
-	*/
 	
 	stage("Upload War To Nexus"){
 	    steps{
 		script{
+		    def mavenPom = readMavenPom file: 'pom.xml'
+		    def nexusRepoName = mavenPom.version.endsWith("SNAPSHOT") ? "javawebapplication-snapshot" : "javawebapplication-release"
 		    nexusArtifactUploader artifacts: [
 			[
 			    artifactId: 'javawebapplication', 
 		            classifier: '', 
-			    file: 'target/javawebapplication.war', 
+			    file: 'target/javawebapplication-${mavenPom.version}.war', 
 			    type: 'war'
 			]
 			], 
@@ -80,9 +56,9 @@ pipeline{
 			    nexusUrl: '172.31.16.50:8081', 
 			    nexusVersion: 'nexus3', 
 			    protocol: 'http', 
-			    repository: 'javawebapplication-release', 
-			    version: '1.0.0'    
-            }
+			    repository: nexusRepoName, 
+			    version: "${mavenPom.version}"    
+                       }
 		}
 	}
 	
@@ -91,11 +67,9 @@ pipeline{
                 sshagent(['tomcat-keypair']) {
                 sh """
 		    echo $WORKSPACE
-		    
+		    mv target/*.war target/javawebapplication.war
                     scp -o StrictHostKeyChecking=no target/javawebapplication.war  ec2-user@172.31.17.23:/opt/tomcat8/webapps/
-                    
                     ssh ec2-user@172.31.17.23 /opt/tomcat8/bin/shutdown.sh
-                    
                     ssh ec2-user@172.31.17.23 /opt/tomcat8/bin/startup.sh
                 
                 """
