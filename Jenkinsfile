@@ -33,6 +33,7 @@ pipeline{
                 // Get Home Path of Maven 
                 def mvnHome = tool name: 'maven-3', type: 'maven'
                 sh "${mvnHome}/bin/mvn clean package"
+		sh "mv target/*.war target/javawebapplication.war"	
                 }
             }
         }
@@ -90,8 +91,6 @@ pipeline{
                 sshagent(['tomcat-keypair']) {
                 sh """
 		    echo $WORKSPACE
-		    
-		    mv target/*.war target/javawebapplication.war
 		    
                     scp -o StrictHostKeyChecking=no target/javawebapplication.war  ec2-user@172.31.17.23:/opt/tomcat8/webapps/
                     
