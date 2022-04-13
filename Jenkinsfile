@@ -47,7 +47,7 @@ pipeline{
 			[
 			    artifactId: 'javawebapplication', 
 		            classifier: '', 
-			    file: 'target/javawebapplication-${mavenPom.version}.war', 
+			    file: "target/javawebapplication-${mavenPom.version}.war", 
 			    type: 'war'
 			]
 			], 
