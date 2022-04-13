@@ -62,7 +62,29 @@ pipeline{
 	    }
 	}
 	*/
-        
+	
+	stage("Upload War To Nexus"){
+	    steps{
+		script{
+		    nexusArtifactUploader artifacts: [
+			[
+			    artifactId: 'javawebapplication', 
+		            classifier: '', 
+			    file: 'target/javawebapplication.war', 
+			    type: 'war'
+			]
+			], 
+			    credentialsId: 'nexus3', 
+			    groupId: 'in.javahome', 
+			    nexusUrl: '172.31.16.50:8081', 
+			    nexusVersion: 'nexus3', 
+			    protocol: 'http', 
+			    repository: 'javawebapplication-release', 
+			    version: '1.0.0'    
+            }
+		}
+	}
+	
         stage("Deploy to Tomcat Server"){
             steps{
                 sshagent(['tomcat-keypair']) {
@@ -101,4 +123,3 @@ pipeline{
 		     //body: "Something is wrong with ${env.BUILD_URL}"
 	   // }
     //}	
-    
