@@ -37,7 +37,7 @@ pipeline{
             }
         }
 	
-	
+	/*
 	stage("Upload War To Nexus"){
 	    steps{
 		script{
@@ -61,6 +61,7 @@ pipeline{
                        }
 		}
 	}
+	*/
 	
         stage("Deploy to Tomcat Server"){
             steps{
@@ -68,9 +69,9 @@ pipeline{
                 sh """
 		    echo $WORKSPACE
 		    mv target/*.war target/javawebapplication.war
-                    scp -o StrictHostKeyChecking=no target/javawebapplication.war  ec2-user@172.31.17.23:/opt/tomcat8/webapps/
-                    ssh ec2-user@172.31.17.23 /opt/tomcat8/bin/shutdown.sh
-                    ssh ec2-user@172.31.17.23 /opt/tomcat8/bin/startup.sh
+                    scp -o StrictHostKeyChecking=no target/javawebapplication.war  ec2-user@172.31.18.126:/opt/tomcat8/webapps/
+                    ssh ec2-user@172.31.18.126 /opt/tomcat8/bin/shutdown.sh
+                    ssh ec2-user@172.31.18.126 /opt/tomcat8/bin/startup.sh
                 
                 """
                 }
