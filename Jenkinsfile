@@ -8,7 +8,7 @@ pipeline{
             }
         }
 	 
-	/*  
+	  
         stage('Quality Gate Status Check'){
             steps{
                 script{
@@ -26,7 +26,7 @@ pipeline{
                 }
             }  
         }
-	*/
+	
 	
         stage("Maven Build"){
             steps{
@@ -70,9 +70,9 @@ pipeline{
                 sh """
 		    echo $WORKSPACE
 		    mv target/*.war target/javawebapplication.war
-                    scp -o StrictHostKeyChecking=no target/javawebapplication.war  ec2-user@172.31.28.255:/opt/tomcat8/webapps/
-                    ssh ec2-user@172.31.28.255 /opt/tomcat8/bin/shutdown.sh
-                    ssh ec2-user@172.31.28.255 /opt/tomcat8/bin/startup.sh
+                    scp -o StrictHostKeyChecking=no target/javawebapplication.war  ec2-user@172.31.34.253:/opt/tomcat8/webapps/
+                    ssh ec2-user@172.31.34.253 /opt/tomcat8/bin/shutdown.sh
+                    ssh ec2-user@172.31.34.253 /opt/tomcat8/bin/startup.sh
                 
                 """
                 }
