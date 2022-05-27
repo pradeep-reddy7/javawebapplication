@@ -75,8 +75,7 @@ pipeline{
             
             }
         }
-    }
- }   
+    }   
     post {
 	    always {
 		echo 'Deleting the Workspace'
@@ -93,3 +92,4 @@ pipeline{
 		     //body: "Something is wrong with ${env.BUILD_URL}"
 	    //}
     }	
+}
