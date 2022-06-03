@@ -7,7 +7,7 @@ pipeline{
                 git credentialsId: 'github', url: 'https://github.com/kishanth94/javawebapplication'
             }
         }
-	/*
+	
         stage('Quality Gate Status Check'){
             steps{
                 script{
@@ -25,7 +25,6 @@ pipeline{
                 }
             }  
         }
-	*/
 	
         stage("Maven Build"){
             steps{
