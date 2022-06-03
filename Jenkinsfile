@@ -35,7 +35,7 @@ pipeline{
                 }
             }
         }
-	/*
+	
 	stage("Upload War To Nexus"){
 	    steps{
 		script{
@@ -59,7 +59,7 @@ pipeline{
                        }
 		}
 	}
-	*/
+	
         stage("Deploy to Tomcat Server"){
             steps{
                 sshagent(['tomcat-keypair']) {
@@ -77,9 +77,9 @@ pipeline{
         }
     }   
     post {
-	    always {
-		echo 'Deleting the Workspace'
-		deleteDir() /* Clean Up our Workspace */
+	    //always {
+	    //echo 'Deleting the Workspace'
+	    //deleteDir() /* Clean Up our Workspace */
 	    }
 	    //success {
 		//mail to: 'devopsawsfreetier@gmail.com',
