@@ -53,7 +53,7 @@ pipeline{
 			], 
 			    credentialsId: 'nexus3', 
 			    groupId: 'in.javahome', 
-			    nexusUrl: '172.31.45.236:8081', 
+			    nexusUrl: '172.31.25.143:8081', 
 			    nexusVersion: 'nexus3', 
 			    protocol: 'http', 
 			    repository: nexusRepoName, 
@@ -62,7 +62,7 @@ pipeline{
 		}
 	}
 	
-	    
+	/*    
         stage("Deploy to Tomcat Server"){
             steps{
                 sshagent(['tomcat-keypair']) {
@@ -78,13 +78,14 @@ pipeline{
             
             }
         }
+	*/
     }  
-	
-    post {
-	    always {
-	      echo 'Deleting the Workspace'
-	      deleteDir() /* Clean Up our Workspace */
-	    }
+}	
+    //post {
+	    //always {
+	    //echo 'Deleting the Workspace'
+	    //deleteDir() /* Clean Up our Workspace */
+	    //}
 	    //success {
 		//mail to: 'devopsawsfreetier@gmail.com',
 		     //subject: "Success Build Pipeline: ${currentBuild.fullDisplayName}",
@@ -95,7 +96,7 @@ pipeline{
 // 		     subject: "Failed Build Pipeline: ${currentBuild.fullDisplayName}",
 // 		     body: "Something is wrong with ${env.BUILD_URL}"
 // 	    }
-    }
-}
+    //}
+//}
 
 
