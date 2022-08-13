@@ -62,7 +62,7 @@ pipeline{
 		}
 	}
 	
-	/*    
+	
         stage("Deploy to Tomcat Server"){
             steps{
                 sshagent(['tomcat-keypair']) {
@@ -78,25 +78,22 @@ pipeline{
             
             }
         }
-	*/
-    }  
-}	
-    //post {
-	    //always {
-	    //echo 'Deleting the Workspace'
-	    //deleteDir() /* Clean Up our Workspace */
-	    //}
-	    //success {
-		//mail to: 'devopsawsfreetier@gmail.com',
-		     //subject: "Success Build Pipeline: ${currentBuild.fullDisplayName}",
-		     //body: "The pipeline ${env.BUILD_URL} completed successfully"
-	    //}
-	    //failure {
-//  		mail to: 'devopsawsfreetier@gmail.com',
-// 		     subject: "Failed Build Pipeline: ${currentBuild.fullDisplayName}",
-// 		     body: "Something is wrong with ${env.BUILD_URL}"
-// 	    }
-    //}
-//}
-
+    }  	
+    post {
+	    always {
+	      echo 'Deleting the Workspace'
+	      deleteDir() /* Clean Up our Workspace */
+	    }
+	    success {
+		mail to: 'kishanthisavailable@gmail.com',
+		   subject: "Success Build Pipeline: ${currentBuild.fullDisplayName}",
+		    body: "The pipeline ${env.BUILD_URL} completed successfully"
+	    }
+	    failure {
+  		mail to: 'kishanthisavailable@gmail.com',
+ 		     subject: "Failed Build Pipeline: ${currentBuild.fullDisplayName}",
+ 		     body: "Something is wrong with ${env.BUILD_URL}"
+ 	    }
+    }
+}
 
