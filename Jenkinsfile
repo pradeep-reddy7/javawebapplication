@@ -4,10 +4,10 @@ pipeline{
     stages{
         stage("Git Checkout"){
             steps{
-                git credentialsId: 'github', url: 'https://github.com/kishanth94/javawebapplication'
+                git credentialsId: 'github-creds', url: 'https://github.com/kishanth94/javawebapplication'
             }
         }
-	
+	/*
         stage('Quality Gate Status Check'){
             steps{
                 script{
@@ -25,7 +25,7 @@ pipeline{
                 }
             }  
         }
-	
+	*/
 	
         stage("Maven Build"){
             steps{
@@ -37,7 +37,7 @@ pipeline{
             }
         }
 	
-	
+	/*
 	stage("Upload War To Nexus"){
 	    steps{
 		script{
@@ -61,7 +61,7 @@ pipeline{
                        }
 		}
 	}
-	
+	*/
 	
         stage("Deploy to Tomcat Server"){
             steps{
@@ -69,16 +69,18 @@ pipeline{
                 sh """
 		    echo $WORKSPACE
 		    mv target/*.war target/javawebapplication.war
-                    scp -o StrictHostKeyChecking=no target/javawebapplication.war  ec2-user@172.31.25.215:/opt/tomcat8/webapps/
-                    ssh ec2-user@172.31.25.215 /opt/tomcat8/bin/shutdown.sh
-                    ssh ec2-user@172.31.25.215 /opt/tomcat8/bin/startup.sh
+                    scp -o StrictHostKeyChecking=no target/javawebapplication.war  ec2-user@172.31.46.22:/opt/tomcat8/webapps/
+                    ssh ec2-user@172.31.46.22 /opt/tomcat8/bin/shutdown.sh
+                    ssh ec2-user@172.31.46.22 /opt/tomcat8/bin/startup.sh
                 
                 """
                 }
             
             }
         }
-    }  	
+    } 
+}
+    /*
     post {
 	    always {
 	      echo 'Deleting the Workspace'
@@ -95,5 +97,5 @@ pipeline{
  		     body: "Something is wrong with ${env.BUILD_URL}"
  	    }
     }
-}
+*/
 
