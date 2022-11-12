@@ -36,7 +36,7 @@ pipeline{
             }
         }
 	
-	/*
+	
 	stage("Upload War To Nexus"){
 	    steps{
 		script{
@@ -52,7 +52,7 @@ pipeline{
 			], 
 			    credentialsId: 'nexus3', 
 			    groupId: 'in.javahome', 
-			    nexusUrl: '172.31.4.60:8081', 
+			    nexusUrl: '172.31.43.24:8081', 
 			    nexusVersion: 'nexus3', 
 			    protocol: 'http', 
 			    repository: nexusRepoName, 
@@ -60,7 +60,6 @@ pipeline{
                        }
 		}
 	}
-	*/
 	
         stage("Deploy to Tomcat Server"){
             steps{
@@ -79,20 +78,20 @@ pipeline{
         }
     } 
     
-//     post {
-// 	  always {
-// 	    echo 'Deleting the Workspace'
-// 	    deleteDir() /* Clean Up our Workspace */
-// 	  }
-// 	    success {
-// 		mail to: 'devopsawsfreetier@gmail.com',
-// 		  subject: "Success Build Pipeline: ${currentBuild.fullDisplayName}",
-// 		  body: "The pipeline ${env.BUILD_URL} completed successfully"
-// 	    }
-// 	    failure {
-//   	        mail to: 'devopsawsfreetier@gmail.com',
-//  		  subject: "Failed Build Pipeline: ${currentBuild.fullDisplayName}",
-//  		  body: "Something is wrong with ${env.BUILD_URL}"
-//  	    }
-//     }
+     post {
+	  always {
+ 	    echo 'Deleting the Workspace'
+ 	    deleteDir() /* Clean Up our Workspace */
+ 	  }
+ 	    success {
+ 		mail to: 'devopsawsfreetier@gmail.com',
+ 		  subject: "Success Build Pipeline: ${currentBuild.fullDisplayName}",
+ 		  body: "The pipeline ${env.BUILD_URL} completed successfully"
+ 	    }
+ 	    failure {
+   	        mail to: 'devopsawsfreetier@gmail.com',
+  		  subject: "Failed Build Pipeline: ${currentBuild.fullDisplayName}",
+  		  body: "Something is wrong with ${env.BUILD_URL}"
+  	    }
+     }
 }
