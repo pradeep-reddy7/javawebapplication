@@ -8,6 +8,7 @@ pipeline{
             }
         }
 	
+	/* 
         stage('Quality Gate Status Check'){
             steps{
                 script{
@@ -25,7 +26,7 @@ pipeline{
                 }
             }  
         }
-	
+	*/
         stage("Maven Build"){
             steps{
                 script{
@@ -36,7 +37,7 @@ pipeline{
             }
         }
 	
-	
+	/*
 	stage("Upload War To Nexus"){
 	    steps{
 		script{
@@ -60,16 +61,16 @@ pipeline{
                        }
 		}
 	}
-	
+	*/
         stage("Deploy to Tomcat Server"){
             steps{
                 sshagent(['tomcat-keypair']) {
                 sh """
 		    echo $WORKSPACE
 		    mv target/*.war target/javawebapplication.war
-                    scp -o StrictHostKeyChecking=no target/javawebapplication.war  ec2-user@172.31.36.175:/opt/tomcat8/webapps/
-                    ssh ec2-user@172.31.36.175 /opt/tomcat8/bin/shutdown.sh
-                    ssh ec2-user@172.31.36.175 /opt/tomcat8/bin/startup.sh
+                    scp -o StrictHostKeyChecking=no target/javawebapplication.war  ec2-user@172.31.35.207:/opt/tomcat8/webapps/
+                    ssh ec2-user@172.31.35.207 /opt/tomcat8/bin/shutdown.sh
+                    ssh ec2-user@172.31.35.207 /opt/tomcat8/bin/startup.sh
                 
                 """
                 }
@@ -78,20 +79,20 @@ pipeline{
         }
     } 
     
-     post {
-	  always {
- 	    echo 'Deleting the Workspace'
- 	    deleteDir() /* Clean Up our Workspace */
- 	  }
- 	    success {
- 		mail to: 'devopsawsfreetier@gmail.com',
- 		  subject: "Success Build Pipeline: ${currentBuild.fullDisplayName}",
- 		  body: "The pipeline ${env.BUILD_URL} completed successfully"
- 	    }
- 	    failure {
-   	        mail to: 'devopsawsfreetier@gmail.com',
-  		  subject: "Failed Build Pipeline: ${currentBuild.fullDisplayName}",
-  		  body: "Something is wrong with ${env.BUILD_URL}"
-  	    }
-     }
+     //post {
+	  //always {
+ 	    //echo 'Deleting the Workspace'
+ 	    //deleteDir() /* Clean Up our Workspace */
+ 	  //}
+ 	    //success {
+ 		//mail to: 'devopsawsfreetier@gmail.com',
+ 		  //subject: "Success Build Pipeline: ${currentBuild.fullDisplayName}",
+ 		  //body: "The pipeline ${env.BUILD_URL} completed successfully"
+ 	    //}
+ 	    //failure {
+   	        //mail to: 'devopsawsfreetier@gmail.com',
+  		  //subject: "Failed Build Pipeline: ${currentBuild.fullDisplayName}",
+  		  //body: "Something is wrong with ${env.BUILD_URL}"
+  	    //}
+     //}
 }
