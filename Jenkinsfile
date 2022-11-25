@@ -13,7 +13,7 @@ pipeline{
             steps{
                 script{
 			withSonarQubeEnv(credentialsId: 'sonar-token') { 
-                        // Get Home Path of Maven 
+                        // Get Home Path of Maven - This is a comment
                         def mvnHome = tool name: 'maven-3', type: 'maven'
 			sh "${mvnHome}/bin/mvn clean sonar:sonar"
                        	  }
