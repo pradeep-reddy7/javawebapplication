@@ -37,7 +37,7 @@ pipeline{
             }
         }
 	
-	/*
+	
 	stage("Upload War To Nexus"){
 	    steps{
 		script{
@@ -53,7 +53,7 @@ pipeline{
 			], 
 			    credentialsId: 'nexus3', 
 			    groupId: 'in.javahome', 
-			    nexusUrl: '172.31.1.97:8081', 
+			    nexusUrl: '172.31.56.247:8081', 
 			    nexusVersion: 'nexus3', 
 			    protocol: 'http', 
 			    repository: nexusRepoName, 
@@ -61,7 +61,7 @@ pipeline{
                        }
 		}
 	}
-	*/
+	
         stage("Deploy to Tomcat Server"){
             steps{
                 sshagent(['tomcat-keypair']) {
