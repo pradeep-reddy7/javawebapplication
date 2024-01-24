@@ -22,7 +22,10 @@ jobs:
           cache: maven  # Ensure the latest version is always used
 
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean install - X
+    
+      - name: Display Maven Output
+        run: cat target/build.log
 
       - name: Upload WAR file
         uses: actions/upload-artifact@v3
