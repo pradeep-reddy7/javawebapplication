@@ -1,28 +1,28 @@
 name: Build and Deploy Java Web Application
 
 on:
-  push:
+  push:						//this workflow runs on everypush on main branch
     branches:
       - main
-  workflow_dispatch:
+  workflow_dispatch:		// this cmd will help us to manually run this workflow
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest	//runner is latest ubuntu
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3	//uses version3 of github actions
 
-      - name: Set up latest Java 
-        uses: actions/setup-java@v4
+      - name: Set up Java 17	//install latest java-version
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'  # Use the Temurin distribution for the latest LTS version
-          java-version: 'latest'
-          check-latest: true  # Ensure the latest version is always used
+          java-version: '17'
+          cache: maven  # Ensure the latest version is always used
 
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean install		//cmd to install maven
 
       - name: Upload WAR file
         uses: actions/upload-artifact@v3
